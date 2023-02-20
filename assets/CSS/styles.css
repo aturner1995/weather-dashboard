@@ -1,3 +1,21 @@
-body, h1, h2, h3, h4, h5, h6 {
+/* Set font family for page elements */
+body, h1, h2, h3, h4, h5, h6, p {
     font-family: Arial, Helvetica, sans-serif
+}
+/* Increase the font size of p elements for viewing */
+p {
+    font-size: 1.25rem;
+}
+/* Increase the font of buttons */
+.btn-font {
+    font-size: 1.5rem;
+}
+/* Increase the font size for the form input */
+#search-input {
+    font-size: 2rem;;
+}
+/* Add line to seperate the search form and the recent searches */
+form {
+    border-bottom: 2px solid black;
+    margin-bottom: 25px;
 }

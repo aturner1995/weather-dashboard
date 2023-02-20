@@ -2,7 +2,7 @@ const searchEl = $('#search-form');
 const fiveDayEl = $('#five-day-forecast');
 const currentResultEl = $('#current-result');
 const savedCitiesEl = $('#saved-cities');
-
+// Search the current weather from the Open Weather Map API. If the response is ok the city is saved and the current weather is displayed on the page.
 const searchWeather = (city) => {
     let apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=c154c3f42016df5fb7b29760ad34155e&units=metric';
     fetch(apiUrl).then((response) => {
@@ -21,7 +21,7 @@ const searchWeather = (city) => {
         console.error('An error occurred while fetching weather data: ', error);        
     })
 };
-
+// Search the 5 day forecast from the Open Weather Map API. If the response is ok the 5 day forecast weather is displayed on the page.
 const searchForecast = (city) => {
     let apiUrl = 'https://api.openweathermap.org/data/2.5/forecast?q=' + city + '&appid=c154c3f42016df5fb7b29760ad34155e&units=metric';
     fetch(apiUrl).then((response) => {
@@ -39,7 +39,7 @@ const searchForecast = (city) => {
         console.error('An error occurred while fetching weather data: ', error);        
     })
 };
-
+// Take the API data and display the weather information on page
 const displayWeather = (data) => {
     currentResultEl.empty();
     let resultCityEl = $('<h2>').text(data.name + ' (' + dayjs(data.dt * 1000).format('MM/DD/YYYY') + ')').append(`<img src="https://openweathermap.org/img/wn/` + data.weather[0].icon + `@2x.png"></img>`);
@@ -48,11 +48,12 @@ const displayWeather = (data) => {
     resultHumidEl = $('<p>').text('Humidity: ' + data.main.humidity + '%');
     currentResultEl.addClass('card px-2 mb-3').append(resultCityEl, resultTempEl, resultWindEl, resultHumidEl);
 };
-
+// Take the API data and display the weather forecast on the page
 const displayForecast = (data) => {
     fiveDayEl.empty();
     const headerText = $('<h2>').text("Five Day Forecast");
     const rowEl = $('<div>').addClass('row');
+    // loop through the data.list array and only display the noon(12) weather forecast
     data.list.forEach((e) => {
         if (e.dt_txt[12] === '2') {
             const iconResultEl = $('<img>').attr('src', `https://openweathermap.org/img/wn/` + e.weather[0].icon + `@2x.png`);
@@ -67,17 +68,17 @@ const displayForecast = (data) => {
     })
     fiveDayEl.append(headerText,rowEl);
 };
-
+// Display the recent searches on the page
 const displayCities = () => {
     let cityList = JSON.parse(localStorage.getItem('savedCities')) || [];
     savedCitiesEl.empty();
 
     for (var i=cityList.length-1; i >=0; i--) {
-        let cityDisplayEl = $('<button>').text(cityList[i]).addClass('btn w-100 bg-dark text-white my-2');
+        let cityDisplayEl = $('<button>').text(cityList[i]).addClass('btn w-100 bg-dark text-white my-2 btn-font');
         savedCitiesEl.append(cityDisplayEl);
     }
 };
-
+// Save the city to local storage
 const saveSearchCity = (data) => {
     let savedCityList = JSON.parse(localStorage.getItem('savedCities')) || [];
 
@@ -87,12 +88,12 @@ const saveSearchCity = (data) => {
         displayCities();
     }    
 };
-
+// Set up application by displaying the recent searches from local storage
 const init = () => {
     displayCities();
 };
 
-
+// Retrieve the value of the user input city from the page form
 const searchFormSub = (e) => {
     e.preventDefault();
     let currentCity = $('#search-input').val();
@@ -102,7 +103,7 @@ const searchFormSub = (e) => {
         $('#search-input').val('');
     }  
 };
-
+// Event delegation to search for weather from the list of recent searches
 const searchSavedList = (e) => {
     e.preventDefault();
     let city = $(e.target).text();
@@ -111,7 +112,7 @@ const searchSavedList = (e) => {
         searchForecast(city);
     } 
 };
-
+// Event listeners
 searchEl.on('submit', searchFormSub);
 savedCitiesEl.on('click', searchSavedList)
 init();
