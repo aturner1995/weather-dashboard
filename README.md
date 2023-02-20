@@ -14,6 +14,7 @@ The remote site is hosted on GitHub Pages
 https://aturner1995.github.io/weather-dashboard/
 
 ## Screenshot
+![image](https://user-images.githubusercontent.com/120421650/220188902-04140594-3fc8-4669-9018-e8a54507ff3a.png)
 
 
 
