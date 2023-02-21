@@ -53,9 +53,9 @@ const displayForecast = (data) => {
     fiveDayEl.empty();
     const headerText = $('<h2>').text("Five Day Forecast");
     const rowEl = $('<div>').addClass('row');
-    // loop through the data.list array and only display the noon(12) weather forecast
+    // loop through the data.list array and only display the noon(12) weather forecast and when day is after the current day
     data.list.forEach((e) => {
-        if (e.dt_txt[12] === '2') {
+        if (e.dt_txt[12] === '2' && dayjs(e.dt*1000).isAfter(dayjs(),'day')) {
             const iconResultEl = $('<img>').attr('src', `https://openweathermap.org/img/wn/` + e.weather[0].icon + `@2x.png`);
             const dateResultEl = $('<h3>').text(dayjs(e.dt*1000).format('MM/DD/YYYY'));
             const tempResultEl = $('<p>').text('Temperature: ' + e.main.temp.toFixed(0) + '°C');
